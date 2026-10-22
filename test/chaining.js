@@ -3,6 +3,21 @@
 
   QUnit.module('Chaining');
 
+//Trying to fix
+    QUnit.test('repeated chaining preserves the value (#2853)', function(assert) {
+    var values = [1, 2, 3];
+    var wrapped = _.chain(values).chain();
+
+    assert.strictEqual(wrapped.value(), values,
+      'preserves the original wrapped value');
+
+    assert.deepEqual(
+      wrapped.map(function(value) { return value * 2; }).value(),
+      [2, 4, 6],
+      'supports further chained operations'
+    );
+  });
+
   QUnit.test('map/flatten/reduce', function(assert) {
     var lyrics = [
       'I\'m a lumberjack and I\'m okay',
