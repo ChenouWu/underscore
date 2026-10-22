@@ -1976,7 +1976,7 @@
 
   // Helper function to continue chaining intermediate results.
   function chainResult(instance, obj) {
-    return instance._chain ? chain(obj) : obj;
+    return instance._chain ? _$1(obj).chain() : obj;
   }
 
   // Add your own custom functions to the Underscore object.
@@ -1986,7 +1986,9 @@
       _$1.prototype[name] = function() {
         var args = [this._wrapped];
         push.apply(args, arguments);
-        return chainResult(this, func.apply(_$1, args));
+        var result = func.apply(_$1, args);
+        if (name === 'chain') return this._chain ? func.call(_$1, result) : result;
+        return chainResult(this, result);
       };
     });
     return _$1;
